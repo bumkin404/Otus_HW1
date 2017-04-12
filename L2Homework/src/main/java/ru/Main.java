@@ -8,20 +8,20 @@ public class Main {
     private static long SLEEP_INTERVAL = 100;
 
     public static void main(String... args) {
-        objectSizeCalc(new BasicObjectFactory());
+        objectSizeCalc(() -> {return new Object();});
 
-        objectSizeCalc(new ByteFactory());
+        objectSizeCalc(() -> {return new Byte((byte)21);});
 
-        objectSizeCalc(new StringFactory());
+        objectSizeCalc(() -> {return new String("aaaaaa");});
 
-        objectSizeCalc(new EmptyStringFactory());
+        objectSizeCalc(() -> {return new String("");});
 
-        objectSizeCalc(new ArrayFactory());
+        objectSizeCalc(() -> {return new ArrayList();});
 
     }
 
     public static void objectSizeCalc(ObjectFactory factory) {
-        String message = new String(factory.getClass().getSimpleName() + " produced " + factory.makeObject().getClass().getSimpleName() + " which take ");
+        String message = new String(" produced " + factory.makeObject().getClass().getSimpleName() + " which take ");
         long size1 = 0;
         long size2 = 0;
         Object handle = factory.makeObject();
@@ -71,47 +71,5 @@ public class Main {
             ex.printStackTrace();
         }
     }
-
-    public static class BasicObjectFactory implements ObjectFactory{
-
-        @Override
-        public Object makeObject() {
-            return new Object();
-        }
-    }
-
-    public static class ByteFactory implements ObjectFactory{
-
-        @Override
-        public Object makeObject() {
-            return new Byte((byte)21);
-        }
-    }
-
-    public static class StringFactory implements ObjectFactory{
-
-        @Override
-        public Object makeObject() {
-            return new String("aaaaaa");
-        }
-    }
-
-    public static class EmptyStringFactory implements ObjectFactory{
-
-        @Override
-        public Object makeObject() {
-            return new String("");
-        }
-    }
-
-    public static class ArrayFactory implements ObjectFactory{
-
-        @Override
-        public Object makeObject() {
-            ArrayList res = new ArrayList();
-            return res;
-        }
-    }
-
 
 }
